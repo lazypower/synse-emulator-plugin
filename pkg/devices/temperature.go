@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
 	"github.com/vapor-ware/synse-sdk/sdk"
 )

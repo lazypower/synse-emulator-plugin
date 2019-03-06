@@ -3,7 +3,7 @@
 #
 
 PLUGIN_NAME    := emulator
-PLUGIN_VERSION := 2.4.1
+PLUGIN_VERSION := 2.4.0
 IMAGE_NAME     := vaporio/emulator-plugin
 
 # In CI, git commit is CIRCLE_SHA1 and git tag
@@ -16,7 +16,7 @@ GO_VERSION := $(shell go version | awk '{ print $$3 }')
 
 PKG_CTX := github.com/vapor-ware/synse-emulator-plugin/vendor/github.com/vapor-ware/synse-sdk/sdk
 LDFLAGS := -w \
-	-X ${PKG_CTX}.BuildDate=${BUILD_DATE} \
+	-X github.com/vapor-ware/synse-sdk/sdk.BuildDate=${BUILD_DATE} \
 	-X ${PKG_CTX}.GitCommit=${GIT_COMMIT} \
 	-X ${PKG_CTX}.GitTag=${GIT_TAG} \
 	-X ${PKG_CTX}.GoVersion=${GO_VERSION} \
@@ -34,7 +34,7 @@ HAS_GOX  := $(shell which gox)
 
 .PHONY: build
 build:  ## Build the plugin Go binary
-	go build -ldflags "${LDFLAGS}" -o build/emulator
+	go build -ldflags "${LDFLAGS}" -o emulator
 
 .PHONY: build-linux
 build-linux:  ## Build the plugin for linux amd64
@@ -58,9 +58,6 @@ endif
 .PHONY: docker
 docker:  ## Build the docker image locally
 	docker build -f Dockerfile \
-		--build-arg BUILD_DATE=$(BUILD_DATE) \
-		--build-arg BUILD_VERSION=$(PLUGIN_VERSION) \
-		--build-arg VCS_REF=$(GIT_COMMIT) \
 		-t $(IMAGE_NAME):latest \
 		-t $(IMAGE_NAME):local .
 
